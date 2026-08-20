@@ -1,11 +1,6 @@
 import SectionHead from "@/components/ui/SectionHead";
 import Reveal from "@/components/ui/Reveal";
-import {
-  AVERAGE_RATING,
-  RATING_ONLY_COUNT,
-  REVIEW_COUNT,
-  WRITTEN_REVIEWS,
-} from "@/lib/reviews";
+import { AVERAGE_RATING, REVIEW_COUNT, WRITTEN_REVIEWS } from "@/lib/reviews";
 
 function Stars({ className = "" }: { className?: string }) {
   return (
@@ -22,6 +17,11 @@ function Stars({ className = "" }: { className?: string }) {
 /**
  * Real Google reviews. Only reviewers who actually wrote something get a quote
  * card — see `lib/reviews.ts` for why star-only reviews are never given words.
+ *
+ * The star-only ones are counted in the summary but not called out. Saying
+ * "plus 1 more rating without a written review" was accurate and needless: it
+ * drew attention to how few reviews there are, and the count above it is
+ * already true on its own.
  */
 export default function TestimonialPreview() {
   return (
@@ -66,14 +66,6 @@ export default function TestimonialPreview() {
             </Reveal>
           ))}
         </div>
-
-        {RATING_ONLY_COUNT > 0 && (
-          <p className="mt-8 text-center text-[13px] text-ink-faint">
-            Plus {RATING_ONLY_COUNT} more five-star{" "}
-            {RATING_ONLY_COUNT === 1 ? "rating" : "ratings"} on Google without a
-            written review.
-          </p>
-        )}
       </div>
     </section>
   );

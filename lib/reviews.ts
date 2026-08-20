@@ -46,13 +46,16 @@ export const REVIEWS: Review[] = [
   {
     author: "Conley Machuene",
     rating: 5,
+    quote:
+      "Excellent service from MODIBE borehole drilling. The team was professional, friendly, and made the whole process easy. I am very happy with the quality of their work.",
     when: "May 2026",
   },
   {
     author: "Modibe Gafane",
     rating: 5,
+    quote:
+      "Great service from MODIBE borehole drilling. The team was professional, reliable, and did a great job. I would definitely recommend their services to anyone looking for quality borehole drilling.",
     when: "May 2026",
-    excludeFromSite: true,
   },
 ];
 
@@ -62,7 +65,11 @@ export const PUBLIC_REVIEWS = REVIEWS.filter((r) => !r.excludeFromSite);
 /** Only these can be rendered as quote cards. */
 export const WRITTEN_REVIEWS = PUBLIC_REVIEWS.filter((r) => r.quote);
 
-/** Star-only reviews, counted but never given words. */
+/**
+ * Star-only reviews: counted in the summary, never given words, and no longer
+ * called out on the page. Kept because it is the honest denominator if anyone
+ * needs to reason about how many reviews carry text.
+ */
 export const RATING_ONLY_COUNT = PUBLIC_REVIEWS.filter((r) => !r.quote).length;
 
 export const REVIEW_COUNT = PUBLIC_REVIEWS.length;
