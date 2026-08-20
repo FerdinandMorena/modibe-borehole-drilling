@@ -218,10 +218,22 @@ The SVG version and `scripts/gen-hero.py` (which wrote into markers that no long
 
 - Full-bleed rather than inside `.wrap` — a marquee that stops at the page gutter reads as a broken carousel; one running off both edges reads as continuous.
 - `SETS = 3` copies of the list, translating by exactly one set width. **`SETS` must stay in step with the `-33.3333%` in the `marquee-x` keyframe.** Three sets of four ~360px cards loops seamlessly up to a ~3000px viewport.
-- Pauses on `:hover` **and `:focus-within`** — without the latter, tabbing to something inside a card would drag it out from under the cursor.
+- **Hover pause is large screens only** — `@media (min-width: 1024px) and (hover: hover)`. The pointer check matters as much as the width: a touch screen has no real hover, so a tap latches `:hover` and freezes the rail until the visitor taps elsewhere.
+- **Focus pause is deliberately not gated.** If anything inside a card ever becomes focusable, tabbing to it must never slide it away, at any size.
 - Only the first set is exposed to assistive tech; the two copies are `aria-hidden`, so the reviews are announced once rather than three times.
 - **Reduced motion needed an explicit override.** The global `prefers-reduced-motion` rule collapses every animation to `0.01ms`, which would snap the track to its end position and look broken. `.marquee-track { animation: none !important }` stops it outright and the container becomes a normal horizontal scroller with scroll-snap.
 - Edge `mask-image` fades cards in and out instead of slicing them mid-word.
+
+### Depth selector: mobile overflow
+
+The tick rail under the slider rendered all sixteen depth labels and hid twelve of them with `opacity-0`. That hides a thing visually but leaves it occupying layout width — sixteen labels forced a ~317px minimum row, which overflows every phone (46px over at 375px, 101px at 320px).
+
+Labels are now **absolutely positioned and only rendered for the four in `LABELLED`**, so they contribute nothing to the row's width; the minimum is just sixteen 1px ticks. Buttons got `min-w-0` so they can actually shrink.
+
+Two related fixes fell out of it:
+
+- **`MagneticButton` could not shrink.** "WhatsApp about the 120m package" plus `px-7` came to ~303px against 271px of usable width on a 375px phone. The button now carries `max-w-full` **on both the wrapper and the inner element** — putting it only on the inner one is a no-op, because its max-width resolves against a wrapper that is itself content-sized. Padding also drops to `px-6` below `sm`.
+- The pricing CTA now reads "WhatsApp this package" below `sm`; the selected depth is already shown at ~32px directly above it, so the long form was redundant on a phone.
 
 ### Section seams
 

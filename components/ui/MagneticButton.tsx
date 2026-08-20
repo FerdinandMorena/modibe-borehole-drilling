@@ -22,7 +22,9 @@ type MagneticButtonProps = {
 
 const BASE =
   "relative inline-flex items-center justify-center overflow-hidden rounded-full " +
-  "px-7 py-[15px] text-[14.5px] font-semibold tracking-[0.01em] " +
+  // max-w-full so a long label wraps inside the pill instead of pushing the
+  // button wider than its container on narrow screens.
+  "max-w-full px-6 py-[15px] text-center text-[14.5px] font-semibold tracking-[0.01em] sm:px-7 " +
   "transition-[box-shadow,background-color,border-color,color] duration-300 " +
   "disabled:cursor-not-allowed disabled:opacity-55";
 
@@ -105,7 +107,10 @@ export default function MagneticButton({
     <motion.span
       ref={hostRef}
       style={{ x, y }}
-      className="inline-flex will-change-transform"
+      // max-w-full here as well as on the button: the inner element's
+      // max-width resolves against this wrapper, so leaving the wrapper
+      // content-sized makes the inner constraint a no-op.
+      className="inline-flex max-w-full will-change-transform"
     >
       {href ? (
         isExternal ? (

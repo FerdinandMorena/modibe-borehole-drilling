@@ -194,6 +194,17 @@ export default function DepthSelector() {
                 />
               </div>
 
+              {/*
+                Sixteen ticks, four of them labelled.
+
+                The labels are absolutely positioned and only rendered for the
+                depths in LABELLED. Previously every tick rendered its label
+                and hid the unwanted ones with `opacity-0` — which hides a
+                thing visually but leaves it occupying layout width. Sixteen
+                labels forced a ~317px minimum row, overflowing every phone
+                (46px over on a 375px screen, 101px on a 320px one). Out of
+                flow, the row's minimum is just the sixteen 1px ticks.
+              */}
               <div className="mt-1 flex justify-between" aria-hidden>
                 {PRICING_TIERS.map((step, stepIndex) => (
                   <button
@@ -201,7 +212,7 @@ export default function DepthSelector() {
                     type="button"
                     tabIndex={-1}
                     onClick={() => setIndex(stepIndex)}
-                    className="group flex flex-1 cursor-pointer flex-col items-center"
+                    className="group relative flex min-w-0 flex-1 cursor-pointer flex-col items-center pb-5"
                   >
                     <span
                       className={[
@@ -209,15 +220,17 @@ export default function DepthSelector() {
                         stepIndex <= index ? "bg-aqua/60" : "bg-white/15",
                       ].join(" ")}
                     />
-                    <span
-                      className={[
-                        "mt-1.5 text-[10.5px] tabular-nums transition-colors duration-300",
-                        LABELLED.has(step.depth) ? "" : "opacity-0",
-                        stepIndex === index ? "text-aqua" : "text-white/35",
-                      ].join(" ")}
-                    >
-                      {step.depth}m
-                    </span>
+                    {LABELLED.has(step.depth) && (
+                      <span
+                        className={[
+                          "absolute left-1/2 top-4 -translate-x-1/2 whitespace-nowrap",
+                          "text-[10.5px] tabular-nums transition-colors duration-300",
+                          stepIndex === index ? "text-aqua" : "text-white/35",
+                        ].join(" ")}
+                      >
+                        {step.depth}m
+                      </span>
+                    )}
                   </button>
                 ))}
               </div>
@@ -230,7 +243,12 @@ export default function DepthSelector() {
                 )}
                 variant="primary"
               >
-                WhatsApp about the {tier.depth}m package
+                {/* The selected depth is already displayed at ~32px directly
+                    above, so the long form is redundant on a phone. */}
+                <span className="sm:hidden">WhatsApp this package</span>
+                <span className="hidden sm:inline">
+                  WhatsApp about the {tier.depth}m package
+                </span>
               </MagneticButton>
               <p className="text-[12.5px] leading-relaxed text-white/45">
                 Free transport within 65km. Drilling, PVC casing

@@ -211,21 +211,7 @@ export default function ContactForm() {
         <p className="mt-6 rounded-2xl border border-gold/30 bg-gold-light/12 px-5 py-4 text-[13.5px] leading-relaxed text-ink-soft">
           <strong className="font-semibold text-ink">
             Form not yet connected.
-          </strong>{" "}
-          EmailJS credentials are missing, so this form cannot send yet. Add{" "}
-          <code className="rounded bg-ocean-mid/8 px-1.5 py-0.5 text-[12.5px]">
-            NEXT_PUBLIC_EMAILJS_SERVICE_ID
-          </code>
-          ,{" "}
-          <code className="rounded bg-ocean-mid/8 px-1.5 py-0.5 text-[12.5px]">
-            NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
-          </code>{" "}
-          and{" "}
-          <code className="rounded bg-ocean-mid/8 px-1.5 py-0.5 text-[12.5px]">
-            NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-          </code>{" "}
-          to <code>.env.local</code> — see <code>.env.example</code>. WhatsApp
-          works right now regardless.
+          </strong>
         </p>
       )}
 

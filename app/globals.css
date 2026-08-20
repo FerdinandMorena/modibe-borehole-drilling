@@ -312,11 +312,21 @@
   will-change: transform;
 }
 
-/* Pause on hover, and on keyboard focus — otherwise tabbing to a link
-   inside a card would drag it out from under the cursor. */
-.marquee:hover .marquee-track,
+/* Focus pause is deliberately NOT width-gated: if anything inside a card
+   ever becomes focusable, tabbing to it must never slide it out from under
+   the reader, at any screen size. */
 .marquee:focus-within .marquee-track {
   animation-play-state: paused;
+}
+
+/* Hover pause is large screens only.
+   `hover: hover` is in there as well as the width: a touch screen has no
+   real hover, so a tap latches :hover and leaves the rail frozen until the
+   visitor taps somewhere else — which reads as the marquee being broken. */
+@media (min-width: 1024px) and (hover: hover) {
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
