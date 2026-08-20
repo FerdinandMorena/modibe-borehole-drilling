@@ -40,9 +40,7 @@ function ReviewCard({ review }: { review: Review }) {
       </blockquote>
       <figcaption className="mt-6 border-t border-ocean-mid/8 pt-5">
         <p className="font-display text-[16px] text-ink">{review.author}</p>
-        <p className="mt-1 text-[12.5px] text-ink-faint">
-          Google review · {review.when}
-        </p>
+        <p className="mt-1 text-[12.5px] text-ink-faint">Google review</p>
       </figcaption>
     </figure>
   );

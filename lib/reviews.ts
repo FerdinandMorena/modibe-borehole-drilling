@@ -19,7 +19,6 @@ export type Review = {
   rating: 5;
   /** Verbatim text. Absent means the reviewer left stars only. */
   quote?: string;
-  when: string;
   /** Set to keep a review out of the on-site testimonials entirely. */
   excludeFromSite?: boolean;
 };
@@ -30,27 +29,23 @@ export const REVIEWS: Review[] = [
     rating: 5,
     quote:
       "The best service I've ever got came from MODIBE borehole drilling. They arrived on time at my house, they were so friendly and before they start drilling they explained everything regarding borehole. I was so happy about their service. I wish they can treat all customers the way they treated me.",
-    when: "May 2026",
   },
   {
     author: "Lesetja Makhura",
     rating: 5,
     quote: "They do quality work.",
-    when: "May 2026",
   },
   {
     author: "Conley Machuene",
     rating: 5,
     quote:
       "Excellent service from MODIBE borehole drilling. The team was professional, friendly, and made the whole process easy. I am very happy with the quality of their work.",
-    when: "May 2026",
   },
   {
     author: "Modibe Gafane",
     rating: 5,
     quote:
       "Great service from MODIBE borehole drilling. The team was professional, reliable, and did a great job. I would definitely recommend their services to anyone looking for quality borehole drilling.",
-    when: "May 2026",
   },
 ];
 
