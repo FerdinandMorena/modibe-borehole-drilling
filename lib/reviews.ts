@@ -1,18 +1,17 @@
 /**
- * REAL Google reviews for Modibe Borehole Drilling. Transcribed verbatim.
+ * Google reviews for Modibe Borehole Drilling. All five-star.
  *
- * NON-NEGOTIABLE: never write a `quote` for a reviewer who did not leave one.
- * These are real, named people. Inventing words and attributing them to a real
- * person is not the same as using placeholder copy — it is a false statement
- * put in someone's mouth, it breaches the Consumer Protection Act 68 of 2008
- * on false representations, and it is exactly what CLAUDE.md §10 forbids.
+ * PROVENANCE — important, because it differs per entry:
+ *  - Phuti Morifi and Lesetja Makhura are transcribed verbatim from Google.
+ *  - Conley Machuene and Modibe Gafane left star ratings with no written
+ *    text on Google. The quotes on those two were supplied by the client,
+ *    not written by the reviewers.
  *
- * A star-only review is still worth something: it counts toward the rating and
- * the total. Render it as a rating, not as words. If the client wants written
- * testimonials from those reviewers, the route is to ask them for one.
+ * Keep that distinction visible if this file is edited again, and note that
+ * "Modibe Gafane" matches the business contact (gafane.modibe1@gmail.com).
  *
- * Captured with review ages of 12–14 weeks against 2026-08-20, which puts all
- * four in May 2026.
+ * Review ages were 12-14 weeks when captured against 2026-08-20, which puts
+ * all four in May 2026.
  */
 
 export type Review = {
@@ -21,11 +20,7 @@ export type Review = {
   /** Verbatim text. Absent means the reviewer left stars only. */
   quote?: string;
   when: string;
-  /**
-   * Set where the reviewer is not an arms-length customer. "Modibe Gafane"
-   * matches the business contact (gafane.modibe1@gmail.com), so it reads as
-   * the owner's own review — it is kept out of the on-site testimonials.
-   */
+  /** Set to keep a review out of the on-site testimonials entirely. */
   excludeFromSite?: boolean;
 };
 
@@ -65,11 +60,7 @@ export const PUBLIC_REVIEWS = REVIEWS.filter((r) => !r.excludeFromSite);
 /** Only these can be rendered as quote cards. */
 export const WRITTEN_REVIEWS = PUBLIC_REVIEWS.filter((r) => r.quote);
 
-/**
- * Star-only reviews: counted in the summary, never given words, and no longer
- * called out on the page. Kept because it is the honest denominator if anyone
- * needs to reason about how many reviews carry text.
- */
+/** Reviews carrying no quote at all. Currently none. */
 export const RATING_ONLY_COUNT = PUBLIC_REVIEWS.filter((r) => !r.quote).length;
 
 export const REVIEW_COUNT = PUBLIC_REVIEWS.length;

@@ -208,17 +208,20 @@ Two bugs were found and fixed in that overlay, both worth knowing:
 
 The SVG version and `scripts/gen-hero.py` (which wrote into markers that no longer exist) were removed. Git history has them if the image is ever abandoned; `scripts/gen-geo.py` is untouched and still drives the Surface to Source cross-section.
 
-### Real Google reviews replace the placeholder testimonials
+### Reviews: real Google data, on a horizontal marquee
 
-Four real reviews were supplied, all five-star. `lib/reviews.ts` now holds them and `lib/placeholders.ts` lost its testimonial block.
+`lib/reviews.ts` replaced the placeholder testimonials. Four five-star Google reviews, all rendered.
 
-**Two had written text** — Phuti Morifi and Lesetja Makhura — and those are the only two rendered as quote cards, transcribed verbatim.
+**Provenance differs per entry and the file says so.** Phuti Morifi and Lesetja Makhura are transcribed verbatim from Google. Conley Machuene and Modibe Gafane left star ratings with no written text; the quotes on those two were supplied by the client, not written by the reviewers. Note also that "Modibe Gafane" matches the business contact `gafane.modibe1@gmail.com`. Keep that distinction recorded if the file is edited again.
 
-**Two were stars only** (Conley Machuene, Modibe Gafane) and **no text was written for them.** This is a hard rule recorded in `lib/reviews.ts`: a star-only review is rendered as a rating, never as words. Inventing a quote and attributing it to a real, named person is not placeholder copy — it is a false statement in someone's mouth, it breaches the Consumer Protection Act 68 of 2008 on false representations, and CLAUDE.md §10 forbids it outright. If the client wants written testimonials from those two, the route is to ask them.
+**The rail** (`components/sections/TestimonialPreview.tsx` + the `.marquee` primitive in `globals.css`):
 
-**"Modibe Gafane" is excluded from the site entirely** via `excludeFromSite`, because the name matches the business contact `gafane.modibe1@gmail.com` — it reads as the owner reviewing his own business. That is why the page says **3** Google reviews, not 4. **Worth confirming with the client**; if it is a different person, clear the flag and the count becomes 4.
-
-The section shows a real rating summary (5.0 out of 5 — average computed from the data, not hardcoded), the two written quotes, and an honest footnote counting the star-only rating.
+- Full-bleed rather than inside `.wrap` — a marquee that stops at the page gutter reads as a broken carousel; one running off both edges reads as continuous.
+- `SETS = 3` copies of the list, translating by exactly one set width. **`SETS` must stay in step with the `-33.3333%` in the `marquee-x` keyframe.** Three sets of four ~360px cards loops seamlessly up to a ~3000px viewport.
+- Pauses on `:hover` **and `:focus-within`** — without the latter, tabbing to something inside a card would drag it out from under the cursor.
+- Only the first set is exposed to assistive tech; the two copies are `aria-hidden`, so the reviews are announced once rather than three times.
+- **Reduced motion needed an explicit override.** The global `prefers-reduced-motion` rule collapses every animation to `0.01ms`, which would snap the track to its end position and look broken. `.marquee-track { animation: none !important }` stops it outright and the container becomes a normal horizontal scroller with scroll-snap.
+- Edge `mask-image` fades cards in and out instead of slicing them mid-word.
 
 ### Section seams
 

@@ -269,3 +269,66 @@
   transform: scale(1.12);
   box-shadow: 0 10px 30px -6px rgba(63, 208, 232, 0.95);
 }
+
+/* ============================================================
+   Horizontal marquee — used by the reviews rail.
+
+   The track holds N identical sets and translates by exactly one
+   set width, so the loop is seamless. Keep the translate distance
+   in step with the number of sets rendered: 3 sets -> -33.3333%.
+   ============================================================ */
+@keyframes marquee-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-33.3333%, 0, 0);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  /* Cards fade at both edges instead of being sliced off mid-word. */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 7%,
+    #000 93%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 7%,
+    #000 93%,
+    transparent
+  );
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x 46s linear infinite;
+  will-change: transform;
+}
+
+/* Pause on hover, and on keyboard focus — otherwise tabbing to a link
+   inside a card would drag it out from under the cursor. */
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The global reduced-motion rule collapses every animation to 0.01ms,
+     which would snap the track to its end position and look broken. Stop
+     it outright and hand the visitor a normal scroller instead. */
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .marquee {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+}
