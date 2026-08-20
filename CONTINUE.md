@@ -208,6 +208,18 @@ Two bugs were found and fixed in that overlay, both worth knowing:
 
 The SVG version and `scripts/gen-hero.py` (which wrote into markers that no longer exist) were removed. Git history has them if the image is ever abandoned; `scripts/gen-geo.py` is untouched and still drives the Surface to Source cross-section.
 
+### Real Google reviews replace the placeholder testimonials
+
+Four real reviews were supplied, all five-star. `lib/reviews.ts` now holds them and `lib/placeholders.ts` lost its testimonial block.
+
+**Two had written text** — Phuti Morifi and Lesetja Makhura — and those are the only two rendered as quote cards, transcribed verbatim.
+
+**Two were stars only** (Conley Machuene, Modibe Gafane) and **no text was written for them.** This is a hard rule recorded in `lib/reviews.ts`: a star-only review is rendered as a rating, never as words. Inventing a quote and attributing it to a real, named person is not placeholder copy — it is a false statement in someone's mouth, it breaches the Consumer Protection Act 68 of 2008 on false representations, and CLAUDE.md §10 forbids it outright. If the client wants written testimonials from those two, the route is to ask them.
+
+**"Modibe Gafane" is excluded from the site entirely** via `excludeFromSite`, because the name matches the business contact `gafane.modibe1@gmail.com` — it reads as the owner reviewing his own business. That is why the page says **3** Google reviews, not 4. **Worth confirming with the client**; if it is a different person, clear the flag and the count becomes 4.
+
+The section shows a real rating summary (5.0 out of 5 — average computed from the data, not hardcoded), the two written quotes, and an honest footnote counting the star-only rating.
+
 ### Section seams
 
 Two separate faults produced the hairline "divider rules" where sections met.

@@ -13,6 +13,10 @@
  * supplied real site footage, which now drives /projects via `lib/works.ts`.
  * Invented depths and yields sitting beside genuine video would have made
  * fabricated numbers look documented.
+ *
+ * The placeholder testimonials are gone too — real Google reviews now live in
+ * `lib/reviews.ts`. Note the rule there: a reviewer who left stars only never
+ * gets words written for them.
  */
 
 export const PLACEHOLDER_STATS = [
@@ -24,36 +28,6 @@ export const PLACEHOLDER_STATS = [
 
 export const STATS_FLAG =
   "Placeholder figures — swap in Modibe's verified numbers before launch.";
-
-export type PlaceholderTestimonial = {
-  quote: string;
-  attribution: string;
-  context: string;
-};
-
-export const PLACEHOLDER_TESTIMONIALS: PlaceholderTestimonial[] = [
-  {
-    quote:
-      "This is placeholder testimonial copy showing the length and tone a real client story should carry — a few sentences of narrative rather than a single line.",
-    attribution: "Client name pending",
-    context: "Residential borehole · location pending",
-  },
-  {
-    quote:
-      "This is placeholder testimonial copy showing the length and tone a real client story should carry — a few sentences of narrative rather than a single line.",
-    attribution: "Client name pending",
-    context: "Agricultural borehole · location pending",
-  },
-  {
-    quote:
-      "This is placeholder testimonial copy showing the length and tone a real client story should carry — a few sentences of narrative rather than a single line.",
-    attribution: "Client name pending",
-    context: "Community water point · location pending",
-  },
-];
-
-export const TESTIMONIALS_FLAG =
-  "Placeholder testimonials — no real client quotes have been supplied yet. Nothing here is attributable to a real person.";
 
 export const PLACEHOLDER_TEAM = [
   {
