@@ -1,26 +1,271 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   MODIBE BOREHOLE DRILLING — design tokens
+   Surface to Source. Blue/aqua carries structure + wayfinding.
+   Gold is emphasis only — never a base surface.
+   ============================================================ */
+
+@theme {
+  --color-ocean-deep: #041b2d;
+  --color-ocean-mid: #0a3a5c;
+  --color-ocean-soft: #14588a;
+  --color-aqua: #3fd0e8;
+  --color-aqua-deep: #1ea9c4;
+  --color-gold: #c9a227;
+  --color-gold-light: #e8c766;
+  --color-foam: #eaf6fa;
+  --color-foam-dim: #cfe7ee;
+  --color-ink: #06283d;
+  --color-ink-soft: rgba(6, 40, 61, 0.65);
+  --color-ink-faint: rgba(6, 40, 61, 0.45);
+
+  --font-display: var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --radius-card: 22px;
+  --radius-panel: 32px;
+
+  --shadow-card: 0 30px 60px -34px rgba(10, 58, 92, 0.28);
+  --shadow-lift: 0 40px 70px -30px rgba(10, 58, 92, 0.38);
+  --shadow-aqua: 0 10px 30px -8px rgba(63, 208, 232, 0.55);
+  --shadow-gold: 0 10px 30px -10px rgba(201, 162, 39, 0.5);
+
+  --ease-water: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --animate-shimmer: shimmer 6s linear infinite;
+  --animate-drift: drift 14s ease-in-out infinite alternate;
+  --animate-rise: rise linear infinite;
+  --animate-pulse-glow: pulse-glow 4.5s ease-in-out infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@keyframes shimmer {
+  to {
+    background-position: 220% center;
+  }
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes drift {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-14px, 10px);
+  }
+}
+@keyframes rise {
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-420px);
+    opacity: 0;
+  }
+}
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+@keyframes ripple-out {
+  to {
+    transform: scale(3.2);
+    opacity: 0;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    /* Lenis owns scrolling — native smooth scroll would fight it. */
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: var(--color-foam);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-aqua);
+    color: var(--color-ocean-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-aqua);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  /* Page gutter — every section shares this measure. */
+  .wrap {
+    width: 100%;
+    max-width: 1180px;
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+  @media (min-width: 768px) {
+    .wrap {
+      padding-inline: 40px;
+    }
+  }
+
+  .wrap-wide {
+    width: 100%;
+    max-width: 1420px;
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+  @media (min-width: 768px) {
+    .wrap-wide {
+      padding-inline: 40px;
+    }
+  }
+
+  /* Animated gradient text — hero headline + CTA emphasis word. */
+  .shimmer-aqua,
+  .shimmer-gold {
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: var(--animate-shimmer);
+  }
+  .shimmer-aqua {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-aqua) 10%,
+      #cdf6ff 45%,
+      var(--color-aqua) 80%
+    );
+  }
+  .shimmer-gold {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-gold-light) 10%,
+      #fff3d6 45%,
+      var(--color-gold-light) 80%
+    );
+  }
+
+  /* The droplet: a circle with one squared corner, rotated 45deg. */
+  .droplet {
+    border-radius: 50% 50% 50% 4px;
+    transform: rotate(45deg);
+  }
+  .droplet > * {
+    transform: rotate(-45deg);
+  }
+
+  .btn-ripple {
+    position: absolute;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.55);
+    transform: scale(0);
+    animation: ripple-out 0.65s ease-out forwards;
+    pointer-events: none;
+  }
+}
+
+/* Respect the OS setting — the narrative section is heavy by design,
+   so honouring this is not optional. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* SplitHeading pre-hydration guard: headings start hidden so there is never a
+   flash of un-split text between paint and hydration. The <noscript> block in
+   the root layout unhides them for visitors without JavaScript, and
+   SplitHeading itself always reveals the element, including on the
+   reduced-motion path. */
+.split-heading {
+  visibility: hidden;
+}
+
+/* ============================================================
+   Depth selector range input.
+   Native <input type="range"> for real keyboard and screen-reader
+   support; everything visual is painted on top of it.
+   ============================================================ */
+.depth-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  cursor: grab;
+}
+.depth-range:active {
+  cursor: grabbing;
+}
+
+/* Track and fill are painted by the component behind the input, so the
+   native track stays transparent in every engine. */
+.depth-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: transparent;
+}
+.depth-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: transparent;
+}
+.depth-range::-moz-range-progress {
+  height: 6px;
+  background: transparent;
+}
+
+.depth-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  margin-top: -10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-aqua), var(--color-aqua-deep));
+  border: 2px solid var(--color-gold-light);
+  box-shadow: 0 8px 22px -6px rgba(63, 208, 232, 0.8);
+  transition:
+    transform 0.25s var(--ease-water),
+    box-shadow 0.25s var(--ease-water);
+}
+.depth-range::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-aqua), var(--color-aqua-deep));
+  border: 2px solid var(--color-gold-light);
+  box-shadow: 0 8px 22px -6px rgba(63, 208, 232, 0.8);
+}
+.depth-range:hover::-webkit-slider-thumb,
+.depth-range:focus-visible::-webkit-slider-thumb {
+  transform: scale(1.12);
+  box-shadow: 0 10px 30px -6px rgba(63, 208, 232, 0.95);
 }
