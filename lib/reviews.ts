@@ -35,7 +35,7 @@ export const REVIEWS: Review[] = [
   {
     author: "Lesetja Makhura",
     rating: 5,
-    quote: "They do qualify work.",
+    quote: "They do quality work.",
     when: "May 2026",
   },
   {
